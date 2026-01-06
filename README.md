@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📦 Stock Manager- Inventory Management & Analytics
 
-## Getting Started
+![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)
+![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green?style=for-the-badge&logo=mongodb)
+![Tailwind](https://img.shields.io/badge/Tailwind-CSS-blue?style=for-the-badge&logo=tailwindcss)
+![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel)
 
-First, run the development server:
+**StockMaster Pro** is a robust full-stack Inventory Management Dashboard designed for real-time stock tracking, secure admin onboarding, and graphical data visualization.
 
+🚀 **Live Demo:** https://stock-manager-tkeo.vercel.app/
+    
+  **Dummy Admin Credentials:**
+  ```bash
+  Username: admin@test.com
+  Password:123
+```    
+---
+
+## ✨ Core Features
+
+- **📊 Dynamic Analytics**: Visualizes stock levels using interactive Bar Charts powered by **Recharts**.
+- **🔐 Secure Authentication**: Route protection and admin sessions managed via **NextAuth.js**.
+- **⚡ Server Actions**: High-performance database operations using Next.js 14 Server Actions.
+- **🔄 Instant Synchronization**: Implements `revalidatePath` to ensure the dashboard graph updates immediately after product entry without manual refresh.
+- **🖼 Image Handling**: Seamless product image uploads and previews.
+- **⏳ Optimized UX**: Integrated loading states and spinners for all form submissions and onboarding processes.
+
+---
+
+## 🛠 Tech Stack
+
+| Layer | Technology |
+| :--- | :--- |
+| **Frontend** | Next.js 14 (App Router) |
+| **Backend** | Server Actions & Node.js |
+| **Database** | MongoDB Atlas (Mongoose ODM) |
+| **Styling** | Tailwind CSS |
+| **Charts** | Recharts |
+| **Validation** | Zod |
+
+---
+
+## 🚀 Installation & Setup
+
+Follow these steps to run the project locally:
+
+### 1. Clone the Repository
+```bash
+git clone [https://github.com/your-username/stock-manager.git](https://github.com/your-username/stock-manager.git)
+cd stock-manager
+```
+### 2. Install Dependencies
+```bash
+npm install
+```
+### 3. Configure Environment Variables
+Create a .env.local file in the root directory and add the following:
+```bash
+MONGODB_URI=your_mongodb_connection_string
+NEXTAUTH_SECRET=your_random_secret_string
+NEXTAUTH_URL=http://localhost:3000
+```
+### 4. Start Development Server
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🏗 Implementation Highlights
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Data Consistency**
+To solve caching issues, we utilize:
+```bash
+revalidatePath("/dashboard");
+```
+This ensures that the Server-Side cache is purged whenever a new product is added, providing the user with real-time graphical updates.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Video Tutorial of The Website 
+https://github.com/user-attachments/assets/37349ce5-5e22-4abc-85df-ebb135173fe7
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## 🤝 Contributing
+Contributions are welcome! Feel free to open a Pull Request or report an issue.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Developed with ❤️ by Manan
