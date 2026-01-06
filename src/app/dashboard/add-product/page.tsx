@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { addProduct } from "@/actions/productActions";
 import ImageUpload from "@/components/ImageUpload";
+import { Loader2 } from "lucide-react"; // Spinner import kiya
 
 export default function AddProductPage() {
   const router = useRouter();
@@ -24,9 +25,9 @@ export default function AddProductPage() {
     if (result.success) {
       router.push("/dashboard/products");
     } else {
+      setLoading(false); // Error aane par loading off
       alert("Error: " + result.error);
     }
-    setLoading(false);
   }
 
   return (
@@ -34,6 +35,7 @@ export default function AddProductPage() {
       <h2 className="text-2xl font-bold mb-6">Add New Product</h2>
       
       <form action={handleSubmit} className="space-y-4">
+        {/* ... baaki inputs same rahenge ... */}
         <div>
           <label className="block text-sm font-medium mb-1">Product Name</label>
           <input name="name" required className="w-full p-2 border rounded-md focus:ring-2 focus:ring-indigo-500 outline-none" />
@@ -64,7 +66,14 @@ export default function AddProductPage() {
         <div>
           <label className="block text-sm font-medium mb-2">Product Image</label>
           {imageUrl ? (
-            <img src={imageUrl} alt="Preview" className="h-32 w-32 object-cover rounded-lg mb-2" />
+            <div className="relative w-32 h-32">
+              <img src={imageUrl} alt="Preview" className="h-32 w-32 object-cover rounded-lg mb-2" />
+              <button 
+                type="button" 
+                onClick={() => setImageUrl("")} 
+                className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 text-xs"
+              >✕</button>
+            </div>
           ) : (
             <ImageUpload onUpload={(url) => setImageUrl(url)} />
           )}
@@ -72,9 +81,20 @@ export default function AddProductPage() {
 
         <button 
           disabled={loading || !imageUrl}
-          className="w-full bg-indigo-600 text-white py-2 rounded-md font-semibold hover:bg-indigo-700 disabled:bg-slate-400 transition-all"
+          className={`w-full flex items-center justify-center gap-2 py-2 rounded-md font-semibold transition-all ${
+            loading || !imageUrl 
+              ? "bg-slate-400 cursor-not-allowed" 
+              : "bg-indigo-600 hover:bg-indigo-700"
+          } text-white`}
         >
-          {loading ? "Saving..." : "Create Product"}
+          {loading ? (
+            <>
+              <Loader2 className="animate-spin" size={20} />
+              <span>Creating Product...</span>
+            </>
+          ) : (
+            "Create Product"
+          )}
         </button>
       </form>
     </div>

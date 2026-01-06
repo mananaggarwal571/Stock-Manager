@@ -1,7 +1,12 @@
 import { getProducts } from "@/actions/productActions";
 import AnalyticsChart from "@/components/AnalyticsChart";
 
+// 1. Ye line Next.js ko bolegi ki har baar naya data fetch kare
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function DashboardMain() {
+  // Fresh data fetch karega har load par
   const products = await getProducts();
   
   const totalStock = products.reduce((acc: number, p: any) => acc + p.quantity, 0);
@@ -24,6 +29,7 @@ export default async function DashboardMain() {
         </div>
       </div>
 
+      {/* Graph ko fresh data milega */}
       <AnalyticsChart data={products} />
     </div>
   );

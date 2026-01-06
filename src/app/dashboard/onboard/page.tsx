@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { onboardAdmin } from "@/actions/adminActions";
-import { UserPlus, CheckCircle } from "lucide-react";
+import { UserPlus, CheckCircle, Loader2 } from "lucide-react"; // Loader2 add kiya
 
 export default function OnboardPage() {
   const [loading, setLoading] = useState(false);
@@ -9,18 +9,24 @@ export default function OnboardPage() {
 
   async function handleSubmit(formData: FormData) {
     setLoading(true);
+    setSuccess(false); // Naya attempt shuru karte hi success hide karein
+
     const data = {
       name: formData.get("name"),
       email: formData.get("email"),
-      password: formData.get("password"), // Plain text for your project
+      password: formData.get("password"),
     };
 
     const result = await onboardAdmin(data);
+    
     if (result.success) {
       setSuccess(true);
       (document.getElementById("onboard-form") as HTMLFormElement).reset();
+      
+      // 3 second baad success message hide karne ke liye
+      setTimeout(() => setSuccess(false), 3000);
     } else {
-      alert("Error creating admin");
+      alert("Error creating admin: " + result.error);
     }
     setLoading(false);
   }
@@ -34,7 +40,7 @@ export default function OnboardPage() {
         </div>
 
         {success && (
-          <div className="mb-6 p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg flex items-center gap-2">
+          <div className="mb-6 p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg flex items-center gap-2 animate-in fade-in duration-500">
             <CheckCircle size={18} /> Admin created successfully!
           </div>
         )}
@@ -55,9 +61,20 @@ export default function OnboardPage() {
 
           <button 
             disabled={loading}
-            className="w-full bg-indigo-600 text-white py-2.5 rounded-lg font-semibold hover:bg-indigo-700 disabled:bg-slate-400 transition-all"
+            className={`w-full flex items-center justify-center gap-2 text-white py-2.5 rounded-lg font-semibold transition-all ${
+              loading 
+                ? "bg-slate-400 cursor-not-allowed" 
+                : "bg-indigo-600 hover:bg-indigo-700"
+            }`}
           >
-            {loading ? "Registering..." : "Create Admin Account"}
+            {loading ? (
+              <>
+                <Loader2 className="animate-spin" size={20} />
+                <span>Registering Admin...</span>
+              </>
+            ) : (
+              "Create Admin Account"
+            )}
           </button>
         </form>
       </div>

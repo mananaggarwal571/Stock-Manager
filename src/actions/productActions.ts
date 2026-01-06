@@ -8,15 +8,12 @@ import { revalidatePath } from "next/cache";
 export async function addProduct(data: any) {
   try {
     await connectDB();
-    
-    
     const validatedData = productSchema.parse(data);
-
-    
     await Product.create(validatedData);
 
     
-    revalidatePath("/dashboard/products");
+    revalidatePath("/dashboard/products"); 
+    revalidatePath("/dashboard");        
     
     return { success: true };
   } catch (error: any) {
@@ -34,16 +31,20 @@ export async function deleteProduct(id: string) {
   try {
     await connectDB();
     await Product.findByIdAndDelete(id);
+
+    
     revalidatePath("/dashboard/products");
+    revalidatePath("/dashboard"); 
+
     return { success: true };
   } catch (error) {
     return { success: false };
   }
 }
+
 export async function updateProduct(id: string, data: any) {
   try {
     await connectDB();
-   
     await Product.findByIdAndUpdate(id, data);
     
     revalidatePath("/dashboard/products");
